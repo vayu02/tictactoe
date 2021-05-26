@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Square = (props) => {
-    return <button type='button'>{ props.value }</button>;
+const Square = ({value}) => {
+    return <button type='button' className="square-c">{value}</button>;
 }
 
-export default Square
+export default Square;
