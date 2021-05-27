@@ -1,33 +1,7 @@
-import React, {useState} from 'react'
-import { render } from 'react-dom';
+import React from 'react'
 import Square from './Square'
 
-const Board = () => {
-
-    const[board, setboard] = useState(Array(9).fill(null));
-    //for first player 
-    const[nextPlayX, setNextPlayX] = useState (false);
-    //another state to keep track of next player
-    console.log(board)
-
-    const handleSquareClick = (position) =>{
-        //after click function
-        if(board[position]){
-            return;
-        }
-        setboard((prev)=>{
-            return prev.map((square, pos)=>{
-                if(pos === position){
-                    //iterated square position (pos) === currently clicked square (position)
-                    return nextPlayX ? "X" : "0"
-                }
-                return square;   
-                //reurn same square
-            })
-        })
-        setNextPlayX((prev)=> !prev)
-    }
-
+const Board = ({board, handleSquareClick}) => {
     const renderSquare = (position) =>{
         return <Square value={board[position]} onClick={()=>{
             handleSquareClick(position)
