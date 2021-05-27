@@ -4,46 +4,46 @@ import './style/root.scss'
 import {calculateWinner} from './components/winninglogic'
 
 const App = () =>{
-    const[board, setboard] = useState(Array(9).fill(null));
-    //for first player 
-    const[nextPlayX, setNextPlayX] = useState (false);
-    //another state to keep track of next player
-    // console.log(board)
+    const[history, sethistory] = useState([ {board: Array(9).fill(null), nextPlayX: true} ]);
+    const[currentMove, setcurrentMove] = useState(0);
+    //setcurrentMove will be index for sethistory
+    const current = history[currentMove];
+    //history with index of current move
+    //current game state 
 
-    const winner = calculateWinner(board)
-    // console.log(winner)
+    console.log("history", history)
+    
+    const winner = calculateWinner(current.board)
     const message = winner 
     ? `winner is ${winner}` 
-    : `next player is ${nextPlayX ? 'X' : '0'}`
-
+    : `next player is ${current.nextPlayX ? 'X' : '0'}`
 
     const handleSquareClick = (position) =>{
-        //after click function
-        if(board[position] || winner){
+        if(current.board[position] || winner){
             return;
-            //if board position exist return from function
+            
         }
-        setboard((prev)=>{
-            return prev.map((square, pos)=>{
+        sethistory((prev)=>{
+            const last = prev[prev.length - 1];
+            //to get latest void state
+            const newBoard = last.board.map((square, pos)=>{
                 if(pos === position){
-                    //iterated square position (pos) === currently clicked square (position)
-                    return nextPlayX ? "X" : "0"
-                    //if nextPlayer then return X or 0
+                    return last.nextPlayX ? "X" : "0"
                 }
                 return square;   
-                //reurn same square
             })
+            return prev.concat({board: newBoard, nextPlayX : !last.nextPlayX})
+            //to addd new values to prev board value
         })
-        //update function
-        setNextPlayX((prev)=>  !prev)
+        setcurrentMove(prev => prev + 1)
+        //to increment count
     }
-
 
     return(
         <div className="app-c">
             <h1>Tic Tac Toe</h1>
             <h2>{message}</h2>
-            <Board board={board} handleSquareClick={handleSquareClick} />
+            <Board board={current.board} handleSquareClick={handleSquareClick} />
         </div>
     );
 }
