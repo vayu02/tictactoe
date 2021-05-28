@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Board from "./components/Board"
-import './style/root.scss'
+import './style/main.scss'
 import {calculateWinner} from './components/winninglogic'
 import History from './components/History'
 import StatusMsg from './components/StatusMsg'
@@ -53,11 +53,15 @@ const App = () =>{
 
     return(
         <div className="app-c">
-            <h1>Tic Tac Toe</h1>
+            <h1>Tic <span className="txt-grn">Tac Toe</span> </h1>
             <StatusMsg winner={winner} current={current}/>
             <Board board={current.board} handleSquareClick={handleSquareClick} winningSquares ={winningSquares} />
-            <button type='button' onClick={onNewGame}>Start New Game</button>
+            <button type='button' onClick={onNewGame} className={`btn-rst ${winner ? 'active' : ''}`}>
+                Start New Game
+            </button>
+            <h2 style={{fontWeight:'normal'}}>Current Game History</h2>
             <History history={history} moveTo={moveTo} currentMove={currentMove} />
+            <div className='bg-bls' />
         </div>
     );
 }

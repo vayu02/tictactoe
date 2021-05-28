@@ -3,8 +3,8 @@ import React from 'react'
 const History = ({history, moveTo, currentMove}) => {
     //history comes from app.js
     return (
-        <div>
-            <ul>
+        <div className="hstry-wrap">
+            <ul className='hstry'>
                 {
                     //_ becuase not intended to use functional value
                     //index move 
@@ -12,9 +12,7 @@ const History = ({history, moveTo, currentMove}) => {
                     // our mapping isnt dynamic to we will use its index=move
                     return(
                         <li key={move}>
-                            <button style={
-                                {fontWeight: move === currentMove ? 'bold' : 'normal'}
-                            } 
+                            <button className={`.btn-mv ${move === currentMove ? 'active': ''}`}
                             type='button' 
                             onClick={()=>{
                                 moveTo(move)
