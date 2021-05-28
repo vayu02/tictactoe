@@ -3,6 +3,7 @@ import Board from "./components/Board"
 import './style/root.scss'
 import {calculateWinner} from './components/winninglogic'
 import History from './components/History'
+import StatusMsg from './components/StatusMsg'
 
 const App = () =>{
     const[history, sethistory] = useState([ {board: Array(9).fill(null), nextPlayX: true} ]);
@@ -11,13 +12,9 @@ const App = () =>{
     const current = history[currentMove];
     //history with index of current move
     //current game state 
-
-    console.log("history", history)
     
     const winner = calculateWinner(current.board)
-    const message = winner 
-    ? `winner is ${winner}` 
-    : `next player is ${current.nextPlayX ? 'X' : '0'}`
+    
 
     const handleSquareClick = (position) =>{
         if(current.board[position] || winner){
@@ -47,7 +44,7 @@ const App = () =>{
     return(
         <div className="app-c">
             <h1>Tic Tac Toe</h1>
-            <h2>{message}</h2>
+            <StatusMsg winner={winner} current={current}/>
             <Board board={current.board} handleSquareClick={handleSquareClick} />
             <History history={history} moveTo={moveTo} currentMove={currentMove} />
         </div>
