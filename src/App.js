@@ -5,15 +5,20 @@ import {calculateWinner} from './components/winninglogic'
 import History from './components/History'
 import StatusMsg from './components/StatusMsg'
 
+
+const NEW_GAME = [
+    {board: Array(9).fill(null), nextPlayX: true} 
+]
+
 const App = () =>{
-    const[history, sethistory] = useState([ {board: Array(9).fill(null), nextPlayX: true} ]);
+    const[history, sethistory] = useState(NEW_GAME);
     const[currentMove, setcurrentMove] = useState(0);
     //setcurrentMove will be index for sethistory
     const current = history[currentMove];
     //history with index of current move
     //current game state 
     
-    const winner = calculateWinner(current.board)
+    const {winner, winningSquares} = calculateWinner(current.board)
     
 
     const handleSquareClick = (position) =>{
@@ -41,11 +46,17 @@ const App = () =>{
         setcurrentMove(move);
     }
 
+    const onNewGame = () =>{
+        sethistory(NEW_GAME)
+        setcurrentMove(0)
+    }
+
     return(
         <div className="app-c">
             <h1>Tic Tac Toe</h1>
             <StatusMsg winner={winner} current={current}/>
-            <Board board={current.board} handleSquareClick={handleSquareClick} />
+            <Board board={current.board} handleSquareClick={handleSquareClick} winningSquares ={winningSquares} />
+            <button type='button' onClick={onNewGame}>Start New Game</button>
             <History history={history} moveTo={moveTo} currentMove={currentMove} />
         </div>
     );
